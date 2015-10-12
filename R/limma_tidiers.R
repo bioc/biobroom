@@ -12,7 +12,7 @@
 #'
 #' @name limma_tidiers
 #'
-#' @param x MArrayLM object
+#' @param x \code{MArrayLM}, \code{MAList}, \code{Elist} object
 #'
 #' @return The output of tidying functions is always a data frame without
 #' rownames.
@@ -144,8 +144,6 @@ glance.MArrayLM <- function(x, ...) {
 
 #' Tidying method for a MA list
 #' @rdname limma_tidiers
-#' @param x \code{MAList} class from the limma package.
-#' @param ... Currently no additional arguments are necessary.
 #'
 #' @return \code{tidy} returns a data frame with one row per gene-sample
 #' combination, with columns
@@ -162,9 +160,6 @@ tidy.MAList <- function(x, ...) {
 #' Tidy an EList expression object
 #'
 #' @rdname limma_tidiers
-#'
-#' @param x \code{Elist} class from the limma package.
-#' @param ... Currently no additional arguments are necessary.
 #'
 #' @return \code{tidy} returns a data frame with one row per gene-sample
 #' combination, with columns

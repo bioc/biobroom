@@ -20,7 +20,7 @@
 \method{tidy}{EList}(x, ...)
 }
 \arguments{
-\item{x}{MArrayLM object}
+\item{x}{\code{MArrayLM}, \code{MAList}, \code{Elist} object}
 
 \item{intercept}{whether the \code{(Intercept)} term should be included
 (default FALSE)}
@@ -29,14 +29,6 @@
 
 \item{data}{original expression matrix; if missing, \code{augment} returns only
 the computed per-gene statistics}
-
-\item{x}{\code{MAList} class from the limma package.}
-
-\item{...}{Currently no additional arguments are necessary.}
-
-\item{x}{\code{Elist} class from the limma package.}
-
-\item{...}{Currently no additional arguments are necessary.}
 }
 \value{
 The output of tidying functions is always a data frame without
