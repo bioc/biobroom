@@ -1,6 +1,6 @@
 ---
 title: "biobroom Vignette"
-author: "Andrew Bass, Emily Nelson and David Robinson"
+author: "Andrew Bass, Emily Nelson, David Robinson and John Storey"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -12,11 +12,11 @@ vignette: >
 # About biobroom
 
 The `biobroom` package contains methods for converting standard objects in
-Bioconductor into a tidy format. It serves as a complement to the popular [broom](https://github.com/dgrtwo/broom)
+Bioconductor into a "tidy format". It serves as a complement to the popular [broom](https://github.com/dgrtwo/broom)
 package, and follows the same division (`tidy`/`augment`/`glance`) of tidying
 methods.
 
-"Tidy data" is a data analysis paradigm that focuses on keeping data in so-called "long" format--essentially a single observation per row of a data table. For further information, please see Hadley Wickham's [paper](http://vita.had.co.nz/papers/tidy-data.pdf) on the subject.
+"Tidy data" is a data analysis paradigm that focuses on keeping data formatted as a single observation per row of a data table. For further information, please see [Hadley Wickham's seminal paper](http://vita.had.co.nz/papers/tidy-data.pdf) on the subject.  "Tidy" is not a normative statement about the quality of an object's structure. Rather, it is a technical specification about the choice of rows and columns. A tidied data frame is not "better" than an S4 object; it simply allows analysis with a different set of tools.
 
 Tidying data makes it easy to recombine, reshape and visualize bioinformatics
 analyses. Objects that can be tidied include
@@ -91,7 +91,12 @@ head(augment(qobj))
 head(glance(qobj))
 ```
 
-The gene names can be inputted into `augment` using the `gene.names` argument.
+The original data, or in this example the gene names, can be inputted into `augment` using the `data` argument:
+```{r}
+# create sample names
+df <- data.frame(gene = 1:length(hedenfalk$p))
+head(augment(qobj, data = df))
+```
 The tidied data can be used to easily create plots:
 
 ```{r}
@@ -152,7 +157,7 @@ head(tidy_results)
 ```
 
 As an example to show how easy it is to manipulate the resulting object,
-`tidy_result`, we can use `ggplot2` to create a volcano plot of the p-values: 
+`tidy_results`, we can use `ggplot2` to create a volcano plot of the p-values: 
 
 ```{r}
 ggplot(tidy_results, aes(x=estimate, y=log(p.value),
