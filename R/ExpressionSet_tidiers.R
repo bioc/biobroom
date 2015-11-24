@@ -3,6 +3,9 @@
 #' @param x ExpressionSet object
 #' @param addPheno whether columns should be included in the tidied output
 #' for those in the ExpressionSet's phenoData
+#' @param assay The name of the \code{\link[Biobase]{assayDataElement}} to use
+#'   as the values to tidy. Defaults to \code{assayDataElementNames(x)[1L]},
+#'   which is usually equivalent to \code{exprs(x)}.
 #' @param ... extra arguments (not used)
 #'
 #' @details \code{addPheno=TRUE} adds columns that are redundant (since they
@@ -29,15 +32,27 @@
 #'
 #' @S3method tidy ExpressionSet
 #' @export tidy.ExpressionSet
-tidy.ExpressionSet <- function(x, addPheno=FALSE, ...) {
-    expressions <- fix_data_frame(Biobase::exprs(x), newcol="gene")
-    ret <- expressions %>% tidyr::gather(sample.id, value, -gene)
+#' @importFrom Biobase assayDataElement assayDataElementNames
+tidy.ExpressionSet <- function(x, addPheno=FALSE,
+                               assay=Biobase::assayDataElementNames(x)[1L],
+                               ...) {
+    if (!assay %in% Biobase::assayDataElementNames(x)) {
+        stop("Invalid assayDataElementName: ", assay)
+    }
+    expressions <- Biobase::assayDataElement(x, assay) %>%
+        fix_data_frame(newcol="gene")
+    ret <- expressions %>%
+        tidyr::gather(sample, value, -gene) %>%
+        dplyr::mutate(sample=as.character(sample))
 
     if (addPheno) {
         pdat <- pData(x)
-        ret <- unrowname(as.data.frame(cbind(gene=ret$gene,
-                                             pdat[as.character(ret$sample), , drop=FALSE],
-                                             value=ret$value)))
+        rownames(pdat) <- colnames(x)
+        ret <- cbind(
+            ret[, c('gene', 'sample')],
+            pdat[ret$sample,,drop=FALSE],
+            value=ret$value) %>%
+            unrowname
     }
     finish(ret)
 }

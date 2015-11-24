@@ -160,7 +160,7 @@ tidy.MAList <- function(x, ...) {
 #' Tidy an EList expression object
 #'
 #' @rdname limma_tidiers
-#'
+#' @param addTargets Add sample level information. Default is FALSE.
 #' @return \code{tidy} returns a data frame with one row per gene-sample
 #' combination, with columns
 #'   \item{gene}{gene name}
@@ -176,15 +176,24 @@ tidy.EList <- function(x, addTargets=FALSE, ...) {
     rownames(x$weights) <- rownames(x$E)
     ret$weight <- tidy_matrix(x$weights)$value
   }
-  if(addTargets) {
-    targets = x$targets
-    targets$sample = unique(ret$sample)
-    ret = ret %>% inner_join(targets)
+  if (!is.null(x$sample.weights)) {
+      sw <- setNames(x$sample.weights, colnames(x))
+      ret$sample.weight <- sw[ret$sample]
+  }
+  if (addTargets) {
+      targets <- x$targets
+      rownames(targets) <- colnames(x)
+      ret <- cbind(
+          ret[, setdiff(names(ret), 'value')],
+          targets[ret$sample,,drop=FALSE],
+          value=ret$value) %>%
+          unrowname
   }
   ret
 }
 
 tidy_matrix <- function(x, ...) {
     broom::fix_data_frame(x, newcol = "gene") %>%
-        tidyr::gather(sample, value, -gene)
+        tidyr::gather(sample, value, -gene) %>%
+        dplyr::mutate(sample=as.character(sample))
 }
