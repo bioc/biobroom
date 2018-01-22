@@ -77,7 +77,8 @@ tidy.MArrayLM <- function(x, intercept = FALSE, ...) {
         ret[[newnames[i]]] <- as.numeric(x[[othernames[i]]])
     }
     if (!intercept) {
-        ret <- ret %>% dplyr::filter(term != "(Intercept)")
+        ret <- ret %>% dplyr::filter(term != "(Intercept)") %>%
+            dplyr::mutate(term = droplevels(as.factor(term)))
     }
 
     finish(ret)
