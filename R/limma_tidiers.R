@@ -77,7 +77,8 @@ tidy.MArrayLM <- function(x, intercept = FALSE, ...) {
         ret[[newnames[i]]] <- as.numeric(x[[othernames[i]]])
     }
     if (!intercept) {
-        ret <- ret %>% dplyr::filter(term != "(Intercept)")
+        ret <- ret %>% dplyr::filter(term != "(Intercept)") %>%
+            dplyr::mutate(term = droplevels(as.factor(term)))
     }
 
     finish(ret)
@@ -105,6 +106,7 @@ tidy.MArrayLM <- function(x, intercept = FALSE, ...) {
 #'   \item{.p.value}{p-value generated from moderated F-statistic}
 #'   \item{.df.total}{total degrees of freedom per gene}
 #'   \item{.df.residual}{residual degrees of freedom per gene}
+#'   \item{.s2.prior}{prior estimate of residual variance}
 #'   \item{.s2.post}{posterior estimate of residual variance}
 #'
 #' @S3method augment MArrayLM
@@ -113,7 +115,7 @@ augment.MArrayLM <- function(x, data, ...) {
     cols <- c("sigma", "F", "F.p.value", "AMean", "df.total", "df.residual",
               "s2.prior", "s2.post")
     newnames <- c("sigma", "statistic", "p.value", "AMean", "df.total",
-                  "df.residual", "s2.post")
+                  "df.residual", "s2.prior", "s2.post")
     lst <- unclass(x)[cols]
     names(lst) <- paste0(".", newnames)
     ret <- cbind(.gene=rownames(x$coefficients), as.data.frame(compact(lst)))
