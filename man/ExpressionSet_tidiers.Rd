@@ -46,4 +46,3 @@ tidy(hammer)
 tidy(hammer, addPheno=TRUE)
 
 }
-

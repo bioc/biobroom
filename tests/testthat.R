@@ -5,6 +5,6 @@ library("DESeq2")
 library("edgeR")
 library("Biobase")
 library("biobroom")
-library("SummarizedExperiment")
+
 test_check("biobroom")
 

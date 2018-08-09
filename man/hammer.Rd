@@ -29,4 +29,3 @@ multi-experiment resource of analysis-ready RNA-seq gene count datasets.
 BMC Bioinformatics, 12, 449. http://bowtie-bio.sourceforge.net/recount/
 }
 \keyword{datasets}
-
