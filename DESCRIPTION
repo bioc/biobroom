@@ -1,6 +1,6 @@
 Package: biobroom
 Title: Turn Bioconductor objects into tidy data frames
-Version: 1.25.0
+Version: 1.25.1
 Author: Andrew J. Bass, David G. Robinson, Steve Lianoglou, Emily Nelson, John D. Storey, with
     contributions from Laurent Gatto
 Maintainer: John D. Storey <jstorey@princeton.edu> and Andrew J. Bass
@@ -36,6 +36,7 @@ Suggests:
     knitr,
     data.table,
     MSnbase,
+    rmarkdown,
     SummarizedExperiment
 VignetteBuilder: knitr
 URL: https://github.com/StoreyLab/biobroom
