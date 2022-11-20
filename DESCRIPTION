@@ -4,7 +4,7 @@ Version: 1.30.0
 Author: Andrew J. Bass, David G. Robinson, Steve Lianoglou, Emily Nelson, John D. Storey, with
     contributions from Laurent Gatto
 Maintainer: John D. Storey <jstorey@princeton.edu> and Andrew J. Bass
-    <ajbass@princeton.edu>
+    <ajbass@emory.edu>
 Description: This package contains methods for converting standard objects
     constructed by bioinformatics packages, especially those in Bioconductor,
     and converting them to tidy data. It thus serves as a complement to the broom
